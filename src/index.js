@@ -10,7 +10,5 @@ const store = createStore(calendar,
   window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
 )
 
-console.log('store: ' + store)
-
 ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();
