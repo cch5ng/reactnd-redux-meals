@@ -40,7 +40,7 @@ class App extends Component {
 //   }
 // }
 
-function mapStateToProps(calendar) {
+function mapStateToProps({ food, calendar }) {
   const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
   console.log(Object.keys(calendar[dayOrder[0]]))
@@ -50,7 +50,7 @@ function mapStateToProps(calendar) {
       day,
       meals: Object.keys(calendar[day]).reduce((meals, meal) => {
         meals[meal] = calendar[day][meal]
-          ? calendar[day][meal] // if calendar for day>meal exists assign it
+          ? food[calendar[day][meal]] // if calendar for day>meal exists assign it
           : null
 
         return meals
