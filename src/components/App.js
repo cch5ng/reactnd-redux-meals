@@ -6,9 +6,16 @@ import '../App.css';
 
 class App extends Component {
 
-  testActions() {
-    this.props.boundAddRecipe()
-    this.props.boundRemoveFromCalendar()
+  // testActions() {
+  //   this.props.boundAddRecipe()
+  //   this.props.boundRemoveFromCalendar()
+  // }
+
+  testActions2() {
+    const data = {day: "monday", recipe: {label: 'hi'}, meal: "breakfast"}
+    const data2 = {day: "monday", meal: "lunch"}
+    this.props.dispatch(addRecipe(data))
+    this.props.dispatch(removeFromCalendar(data2))
   }
 
   render() {
@@ -26,12 +33,12 @@ class App extends Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return {
-    boundAddRecipe: (recObj) => dispatch(addRecipe(recObj)),
-    boundRemoveFromCalendar: (recObj) => dispatch(removeFromCalendar(recObj))
-  }
-}
+// function mapDispatchToProps(dispatch) {
+//   return {
+//     boundAddRecipe: (recObj) => dispatch(addRecipe(recObj)),
+//     boundRemoveFromCalendar: (recObj) => dispatch(removeFromCalendar(recObj))
+//   }
+// }
 
 function mapStateToProps(calendar) {
   const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -52,7 +59,7 @@ function mapStateToProps(calendar) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(mapStateToProps)(App);
 
 //Object.keys(calendar[day]) => [breakfast, lunch, dinner]
 //goal is [{day, meals: {breakfast, lunch, dinner}}, {day, meals}, {}...]
