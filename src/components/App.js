@@ -1,44 +1,63 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import CalendarIcon from 'react-icons/lib/fa/calendar-plus-o'
 import { addRecipe, removeFromCalendar } from '../actions'
-
+import { capitalize } from '../utils/helpers'
 import '../App.css';
 
 class App extends Component {
 
-  // testActions() {
-  //   this.props.boundAddRecipe()
-  //   this.props.boundRemoveFromCalendar()
-  // }
-
-  testActions2() {
-    const data = {day: "monday", recipe: {label: 'hi'}, meal: "breakfast"}
-    const data2 = {day: "monday", meal: "lunch"}
-    this.props.dispatch(addRecipe(data))
-    this.props.dispatch(removeFromCalendar(data2))
-  }
-
   render() {
-    console.log('this.props: ' + this.props)
-    console.table(this.props)
-    console.log('key this.props: ' + Object.keys(this.props))
-    console.log('this.props.calendar: ' + this.props.calendar)
-    console.log('this.props.calendar[0]: ' + this.props.calendar[0])
-    console.log('keys this.props.calendar[0]: ' + Object.keys(this.props.calendar[0]))
+    //console.table(this.props)
+    const { calendar, remove } = this.props
+    const mealOrder = ['breakfast', 'lunch', 'dinner']
+
     return (
-      <div className="App">
-        hello world
+      <div className='container'>
+
+        <ul className='meal-types'>
+          {mealOrder.map((mealType) => (
+            <li key={mealType} className='subheader'>
+              {capitalize(mealType)}
+            </li>
+          ))}
+        </ul>
+
+        <div className='calendar'>
+          <div className='days'>
+            {calendar.map(({ day }) => <h3 key={day} className='subheader'>{capitalize(day)}</h3>)}
+          </div>
+          <div className='icon-grid'>
+            {calendar.map(({ day, meals }) => (
+              <ul key={day}>
+                {mealOrder.map((meal) => (
+                  <li key={meal} className='meal'>
+                    {meals[meal]
+                      ? <div className='food-item'>
+                          <img src={meals[meal].image} alt={meals[meal].label}/>
+                          <button onClick={() => remove({meal, day})}>Clear</button>
+                        </div>
+                      : <button className='icon-btn'>
+                          <CalendarIcon size={30}/>
+                        </button>}
+                  </li>
+                ))}
+              </ul>
+            ))}
+          </div>
+        </div>
+
       </div>
-    );
+)
   }
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return {
-//     boundAddRecipe: (recObj) => dispatch(addRecipe(recObj)),
-//     boundRemoveFromCalendar: (recObj) => dispatch(removeFromCalendar(recObj))
-//   }
-// }
+function mapDispatchToProps(dispatch) {
+  return {
+    selectRecipe: (recObj) => dispatch(addRecipe(recObj)),
+    remove: (recObj) => dispatch(removeFromCalendar(recObj))
+  }
+}
 
 function mapStateToProps({ food, calendar }) {
   const dayOrder = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
@@ -59,7 +78,7 @@ function mapStateToProps({ food, calendar }) {
   }
 }
 
-export default connect(mapStateToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 //Object.keys(calendar[day]) => [breakfast, lunch, dinner]
 //goal is [{day, meals: {breakfast, lunch, dinner}}, {day, meals}, {}...]
