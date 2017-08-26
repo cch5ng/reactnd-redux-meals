@@ -9,7 +9,8 @@
     "react-loading": "^0.1.4",
     "react-modal": "^2.2.4",
     "react-redux": "^5.0.6",
-    "react-scripts": "1.0.11"
+    "react-scripts": "1.0.11",
+    "redux-thunk": "^2.2.0"
   },
   "scripts": {
     "start": "react-scripts start",
